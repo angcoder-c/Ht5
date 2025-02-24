@@ -9,9 +9,43 @@ cd ./Ht5
 ```
 
 ```bash
-py -m venv venv
+python -m pip install virtualenv
 ```
 
 ```bash
-py -m pip install -r requirements.txt
+python -m venv venv
+```
+
+---
+
+**PowerShell**
+
+```bash
+Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force
+```
+
+```bash
+.\venv\Scripts\Activate.ps1
+```
+
+---
+
+**CMD**
+
+```bash
+.\venv\Scripts\activate
+```
+
+---
+
+**Bash** 
+
+```bash
+source .\venv\Scripts\activate
+```
+
+--- 
+
+```bash
+python -m pip install -r requirements.txt
 ```
