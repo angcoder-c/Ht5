@@ -51,7 +51,12 @@ class Process:
         self.instructions -= execute_time
 
         if self.instructions > 0:
-            yield self.env.process(self.ready())
+            # waitting
+            if random.randint(1, 10)<3:
+                yield self.env.timeout(1)
+                yield self.env.process(self.ready())
+            else:
+                yield self.env.process(self.ready())
         else:
             yield self.env.process(self.terminated())
     
