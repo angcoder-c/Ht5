@@ -1,6 +1,9 @@
 import simpy
 import random
 import Process
+import statistics
+
+from Process import Process
 
 def simulation(procesos, intervalo):
     env = simpy.Environment()
@@ -8,13 +11,15 @@ def simulation(procesos, intervalo):
     cpu = simpy.Resource(env, capacity=1)
     process_times = {}
     
-    for i in range(procesos):
-        # procesos en intervalos de x
-        send_interval = random.expovariate(1 / intervalo)
-        env.timeout(send_interval)
-        
-        # nuevo proceso
-        Process.Process(env, f'proceso {i}', ram, cpu, process_times)
-
+    def generate_processes():
+        for i in range(procesos):
+            yield env.timeout(random.expovariate(1 / intervalo))
+            Process(env, f'Proceso {i}', ram, cpu, process_times)
+    
+    env.process(generate_processes())
     env.run()
-    return (process_times, sum(process_times.values()))
+    
+    tiempos = list(process_times.values())
+    promedio = statistics.mean(tiempos) if tiempos else 0
+    desviacion = statistics.stdev(tiempos) if len(tiempos) > 1 else 0
+    return promedio, desviacion
