@@ -17,4 +17,4 @@ def simulation(procesos, intervalo):
         env.timeout(send_interval)
 
     env.run()
-    return process_times
+    return (process_times, sum(process_times.values()))
