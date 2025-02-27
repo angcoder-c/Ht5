@@ -1,5 +1,6 @@
 import random
 
+random.seed(10)
 CPU_SPEED = 3  # instrucciones / u_tiempo
 
 class Process:
@@ -23,21 +24,23 @@ class Process:
         
         while self.instructions > 0:
             with self.cpu.request() as req:
+                self.state = 'ready'
                 yield req  # Esperar turno en el CPU
-                self.state = 'running'
-                execute_time = min(CPU_SPEED, self.instructions)
-                yield self.env.timeout(1)  # Tiempo de procesamiento
-                self.instructions -= execute_time
+
+            self.state = 'running'
+            execute_time = min(CPU_SPEED, self.instructions)
+            yield self.env.timeout(1)  # Tiempo de procesamiento
+            self.instructions -= execute_time
                 
-                # Simulación de posible espera
-                if random.randint(0, 1):
-                    self.state = 'waiting'
-                    yield self.env.timeout(1)  # Simulación de estado de espera
-                    self.state = 'ready'
-                else:
-                    self.state = 'ready'
+            # Simulación de posible espera
+            if random.randint(0, 1):
+                self.state = 'waiting'
+                yield self.env.timeout(1)  # Simulación de estado de espera
+                self.state = 'ready'
+            else:
+                self.state = 'ready'
         
-        # Liberar memoria RAM
+        # liberar memoria
         yield self.ram.put(self.memory_needed)
         self.state = 'terminated'
         self.process_times[self.name] = self.env.now - self.start_time

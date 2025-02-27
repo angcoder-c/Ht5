@@ -14,5 +14,6 @@ if __name__ == "__main__":
     for intervalo in intervalos:
         print(f"\nIntervalo de llegada: {intervalo}")
         for caso in casos:
+            print(simulation(caso, intervalo))
             promedio, desviacion = simulation(caso, intervalo)
             print(f"Procesos: {caso} -> Tiempo promedio: {promedio:.2f}, Desviación estándar: {desviacion:.2f}")
