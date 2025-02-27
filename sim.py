@@ -9,12 +9,12 @@ def simulation(procesos, intervalo):
     process_times = {}
     
     for i in range(procesos):
-        # nuevo proceso
-        Process.Process(env, f'proceso {i}', ram, cpu, process_times)
-
         # procesos en intervalos de x
         send_interval = random.expovariate(1 / intervalo)
         env.timeout(send_interval)
+        
+        # nuevo proceso
+        Process.Process(env, f'proceso {i}', ram, cpu, process_times)
 
     env.run()
     return (process_times, sum(process_times.values()))
