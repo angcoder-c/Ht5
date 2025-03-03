@@ -48,4 +48,12 @@ if __name__ == "__main__":
             desviaciones_b.append(desviacion)
         resultados_b[intervalo] = (casos, tiempos_promedio_b, desviaciones_b)
         
-        
+        # Graficas inciso b
+        plt.figure(figsize=(10, 6))
+        plt.plot(casos, tiempos_promedio_b, marker='o', linestyle='-', label=f'Intervalo {intervalo}')
+        plt.xlabel('Número de procesos')
+        plt.ylabel('Tiempo promedio en la computadora')
+        plt.title(f'Inciso B: Tiempo promedio vs Número de procesos (Intervalo {intervalo})')
+        plt.legend()
+        plt.grid()
+        plt.show()
